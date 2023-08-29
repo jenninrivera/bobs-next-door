@@ -40,20 +40,70 @@ const [query, setQuery] = useState("")
 
   const onUpdateQuery = event => setQuery(event.target.value)
 
-  const filteredStores = stores.filter(store => {
+  const filteredAndUpdatedStores = stores.filter(store => {
     if(query === "") return true
     else return store.name.toLowerCase().includes(query.toLowerCase())
     // shorcut for line above: 
     // query ? store.name.toLowerCase().includes(query.toLowerCase()) : true
   })
 
+  const onUpdateStore = (event, id) => {
+    event.preventDefault()
+    fetch(`http://localhost:8085/stores/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept" : "application/json"
+      },
+      body: JSON.stringify({
+        "name": event.target.name.value,
+      "image": event.target.image.value,
+      "season": event.target.season.value,
+      "episode": event.target.episode.value
+      }) 
+      
+      })
+      .then(response => response.json())
+      .then(updatedStore => {
+        const updatedStores = stores.map(store => {
+          if(store.id === updatedStores.id) {
+            return updatedStore
+          } else {
+            return store
+          }
+        })
+        setStores(updatedStores)
+    })
+  }
+  
+  
+  const onDeleteStore = (id) => {
+    fetch('http://localhost:8085/stores/' + id, {
+      method: "DELETE",
+    })
+    .then(response => {
+      if (response.ok) {
+        const oneLessStoreList = stores.filter(store => {
+          return (store.id !== id)
+          // if(store.id === id){
+          //   return false
+          // } else {
+          //   return true
+          // }
+        })
+        setStores(oneLessStoreList)
+      }
+    })
+  }
+  
+  
   return (
     <div className="main-container">
       <img src="/images/bobsburgers.png" />
       <h1>Neighbor Stores</h1>
       <Search query={query} onUpdateQuery={onUpdateQuery}/>
       <NewStoreForm onAddStore={onAddStore}/>
-      <StoreList stores={filteredStores} />
+      <StoreList stores={filteredAndUpdatedStores} onUpdateStore={onUpdateStore} onDeleteStore={onDeleteStore}/>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 
-function Store({store}) {
+function Store({store, onUpdateStore, onDeleteStore}) {
     
     return (
+        <>
     <tr>
         <td className="row-name">
             <span>{store.name}</span>
@@ -17,6 +18,23 @@ function Store({store}) {
             <span>{store.episode}</span>
         </td>
     </tr>
+    <div>
+        <form onSubmit={event => onUpdateStore(event, store.id)}>
+            <input name="name" type="text" placeholder="Update Store Name"/>   
+            <input name="image" type="text" placeholder="Update Image Name"/>   
+            <input name="season" type="number" placeholder="Update Season Name"/>   
+            <input name="episode" type="number" placeholder="Update Episode Name"/>   
+            <input type="submit" value="Update"/>   
+        </form>
+        <button onClick={() => onDeleteStore(store.id)}>DELETE STORE</button> 
+    </div>
+        
+          
+        
+       
+    
+    </>
+    
     );
 }
 

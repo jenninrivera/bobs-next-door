@@ -1,9 +1,9 @@
 import React from "react"
 import Store from "./Store"
 
-function StoreList({stores}) {
+function StoreList({stores, onUpdateStore, onDeleteStore}) {
     const storesComponent = stores.map((store) => {
-        return <Store key={store.id} store={store}/>
+        return <Store key={store.id} store={store} onUpdateStore={onUpdateStore} onDeleteStore={onDeleteStore}/>
       })
       
 

@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "P.F.E.T.A",
-      "image": "https://bobsburgers-api.herokuapp.com/images/storeNextDoor/1.jpg",
+      "image": "",
       "season": 1,
       "episode": 1,
       "episodeUrl": "https://bobsburgers-api.herokuapp.com/episodes/1",
